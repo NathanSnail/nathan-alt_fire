@@ -1,31 +1,22 @@
--- TODO: rewrite this library to have types so that it's usable
-local ez_wand = dofile_once("mods/nathan-alt_fire/lib/EZWand/EZWand.lua")
-
 local me = GetUpdatedEntityID()
 local caster = EntityGetRootEntity(me)
-local wand = EntityGetParent(me)
-local controls = (EntityGetComponent(caster, "ControlsComponent") or {})[1]
+local controls = EntityGetFirstComponent(caster, "ControlsComponent")
 if not controls then return end
 ---@type boolean
 local alt_fire = ComponentGetValue2(controls, "mButtonDownThrow")
-if alt_fire then
-	local genome = (EntityGetComponent(caster, "GenomeDataComponent") or {})[1]
-	if not genome then return end
-	local from_x, from_y = EntityGetTransform(wand)
-	print(wand)
-	local hotspot = (
-		EntityGetComponentIncludingDisabled(wand, "HotspotComponent", "shoot_pos") or {}
-	)[1]
-	print(hotspot)
-	if hotspot then
-		local offset_x, offset_y = ComponentGetValue2(hotspot, "offset")
-		print(offset_x, offset_y)
-		local cos, sin = ComponentGetValue2(controls, "mAimingVectorNormalized")
-		from_x = from_x + offset_x * cos + offset_y * sin
-		from_y = from_y + offset_y * cos + offset_x * sin
-		print(offset_x, offset_y)
+if not alt_fire then return end
+
+local platform_shooter = EntityGetFirstComponent(caster, "PlatformShooterPlayerComponent")
+if not platform_shooter then return end
+ComponentSetValue2(platform_shooter, "mForceFireOnNextUpdate", true)
+local vscs = EntityGetComponent(caster, "VariableStorageComponent") or {}
+for _, vsc in ipairs(vscs) do
+	if ComponentGetValue2(vsc, "name") == "nathan-alt_fire_cause" then
+		EntityRemoveComponent(caster, vsc)
 	end
-	local target_x, target_y = ComponentGetValue2(controls, "mMousePosition")
-	local herd = HerdIdToString(ComponentGetValue2(genome, "herd_id"))
-	ez_wand.ShootSpellSequence({ "BOMB" }, from_x, from_y, target_x, target_y, herd)
 end
+EntityAddComponent2(
+	caster,
+	"VariableStorageComponent",
+	{ name = "nathan-alt_fire_cause", value_string = "alt_fire", value_int = GameGetFrameNum() }
+)

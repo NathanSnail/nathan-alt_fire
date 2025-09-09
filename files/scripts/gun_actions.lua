@@ -30,9 +30,10 @@ local new_actions = {
 		action = function()
 			while #deck > 0 do
 				local data = deck[1]
-				table.insert(discarded, data)
+				table.insert(hand, data)
 				table.remove(deck, 1)
 			end
+			draw_actions(1, true)
 		end,
 	},
 }
