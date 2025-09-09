@@ -2,9 +2,11 @@ ModLuaFileAppend(
 	"data/scripts/gun/gun_actions.lua",
 	"mods/nathan-alt_fire/files/scripts/gun_actions.lua"
 )
+ModLuaFileAppend("data/scripts/gun/gun.lua", "mods/nathan-alt_fire/files/scripts/gun_append.lua")
 
 local messages = {}
 local _print = print
+---@diagnostic disable-next-line: unused-function
 local function print(...)
 	local s = ""
 	for _, v in ipairs({ ... }) do
