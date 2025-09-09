@@ -45,9 +45,9 @@ local function to_real_action(partial)
 	local action = {
 		action = partial.action,
 		id = "NATHAN-ALT_FIRE_" .. partial.id,
-		name = "nathan-alt_fire_actionname_" .. id,
-		description = "nathan-alt_fire_actiondesc_" .. id,
-		sprite = "nathan-alt_fire/files/sprites/" .. id,
+		name = "$nathan-alt_fire_actionname_" .. id,
+		description = "$nathan-alt_fire_actiondesc_" .. id,
+		sprite = "mods/nathan-alt_fire/files/sprites/" .. id .. ".png",
 		type = partial.type,
 		recursive = partial.recursive,
 		spawn_level = partial.spawn_level,

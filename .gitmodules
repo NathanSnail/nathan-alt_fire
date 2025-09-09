@@ -1,3 +1,9 @@
 [submodule "noita_stubs"]
 	path = noita_stubs
 	url = https://github.com/NathanSnail/noita_stubs.git
+[submodule "lib/noita_stubs"]
+	path = lib/noita_stubs
+	url = https://github.com/NathanSnail/noita_stubs.git
+[submodule "lib/EZWand"]
+	path = lib/EZWand
+	url = https://github.com/TheHorscht/EZWand.git
