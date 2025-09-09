@@ -1,0 +1,15 @@
+<Entity>
+	<Base file="data/entities/base_custom_card.xml">
+		<SpriteComponent image_file="mods/nathan-alt_fire/files/sprites/alt_fire.xml" />
+		<ItemActionComponent _tags="enabled_in_world" action_id="NATHAN-ALT_FIRE_ALT_FIRE" />
+	</Base>
+
+	<InheritTransformComponent _tags="enabled_in_world,enabled_in_hand">
+		<Transform position.x="8" position.y="0" />
+	</InheritTransformComponent>
+
+	<LuaComponent
+		_tags="enabled_in_hand"
+		script_source_file="mods/nathan-alt_fire/files/scripts/alt_fire.lua"
+		execute_every_n_frame="1" />
+</Entity>
