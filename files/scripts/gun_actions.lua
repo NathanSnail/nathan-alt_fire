@@ -30,6 +30,8 @@ local new_actions = {
 		action = function()
 			while #deck > 0 do
 				local data = deck[1]
+				---@diagnostic disable-next-line: inject-field
+				data.in_fake_hand = true
 				table.insert(hand, data)
 				table.remove(deck, 1)
 			end

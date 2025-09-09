@@ -23,5 +23,42 @@ _draw_actions_for_shot = function(...)
 		EntityRemoveComponent(me, vsc)
 		::continue::
 	end
-	return __draw_actions_for_shot(...)
+
+	local ret = { __draw_actions_for_shot(...) }
+	local piles = { discarded, hand, deck }
+	for _, pile in ipairs(piles) do
+		local i = 1
+		while i <= #pile do
+			local data = pile[i]
+			---@diagnostic disable-next-line: undefined-field
+			if data.in_fake_hand then
+				---@diagnostic disable-next-line: inject-field
+				data.in_fake_hand = nil
+				table.remove(pile, i)
+				table.insert(deck, 1, data)
+			else
+				i = i + 1
+			end
+		end
+	end
+
+	return unpack(ret)
+end
+
+local _move_hand_to_discarded = move_hand_to_discarded
+move_hand_to_discarded = function(...)
+	local i = 1
+	while i <= #hand do
+		local data = hand[i]
+		---@diagnostic disable-next-line: undefined-field
+		if data.in_fake_hand then
+			---@diagnostic disable-next-line: inject-field
+			data.in_fake_hand = nil
+			table.remove(hand, i)
+			table.insert(deck, 1, data)
+		else
+			i = i + 1
+		end
+	end
+	return _move_hand_to_discarded(...)
 end
